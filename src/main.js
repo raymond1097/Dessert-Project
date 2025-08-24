@@ -16,7 +16,7 @@ function updateCartCount() {
   cartCountEl.textContent = `(${totalItems})`;
 }
 
-function getsumTotal() {
+function getSumTotal() {
   const totalCents = cart.reduce((sum, item) => sum + (item.price * item.count), 0)
   return formatPrice(totalCents)
 } 
@@ -31,21 +31,21 @@ function addToCart(product) {
     cart.push({...product, count: 1})
   }
   saveAndRender()
-  getsumTotal()
+  // getSumTotal()
 }
 
 //Update quantity in cart
 function updateCart(name, count) {
   cart = cart.map(item => item.name === name ? {...item, count} : item).filter(item => item.count > 0)  //map create new array with updated quantity //prevent zero/negative qty
   saveAndRender()
-  getsumTotal()
+  // getSumTotal()
 }
 
 //Remove product from cart
 function removeFromCart(name) {
   cart = cart.filter(item => item.name !== name)
   saveAndRender()
-  getsumTotal()
+  // getSumTotal()
 }
 
 function saveAndRender() {
@@ -178,7 +178,7 @@ function renderCart() {
   totalDiv.className = "flex justify-between w-full mt-4 text-neutral-900 items-center"
   totalDiv.innerHTML = `
   <span>Order Total</span>
-  <span class="font-bold text-lg">$${getsumTotal()}</span>
+  <span class="font-bold text-lg">$${getSumTotal()}</span>
   `;
   cartItemsContainer.appendChild(totalDiv)
 
@@ -197,81 +197,100 @@ function renderCart() {
   confirmOrder.textContent = "Confirm Order"
   confirmOrder.addEventListener('click', showOrderConfirmation)
   cartItemsContainer.appendChild(confirmOrder)
+}
 
-  function showOrderConfirmation() {
-    //Hide the cart panel
-    const cartEl = document.querySelector('.cart')
-    if (cartEl) cartEl.style.display = 'none'
+function showOrderConfirmation() {
+  //Hide the cart panel
+  const cartEl = document.querySelector('.cart')
+  if (cartEl) cartEl.style.display = 'none'
 
-    //Create modal overlay
-    const overlay = document.createElement('div')
-    overlay.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50'
+  //Create modal overlay
+  const overlay = document.createElement('div')
+  overlay.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50'
 
-    // Create modal box
-    const modal = document.createElement('div')
-    modal.className = 'bg-white rounded-2xl shadow-xl max-w-md w-full p-6'
-    
-    // Build order summary list
-    let itemsHTML = ""
-    cart.forEach(item => {
-      const itemTotal = item.price * item.count
-      itemsHTML += `
-      <div class="flex justify-between items-center py-2 border-b border-gray-200">
-      <div class="flex gap-3">
-        <img class="w-10 h-10 object-cover rounded-md" src="${item.image.thumbnail}" alt="${item.name}">
-        <div class="flex flex-col text-left">
-          <p class="font-semibold text-gray-800">${item.name}</p>
-          <div class="flex items-center gap-2 text-sm text-rose-500">
-            <span>x${item.count}</span>
-            <span class="text-amber-950 font-medium">@ $${formatPrice(item.price)}</span>
-          </div>
+  // Create modal box
+  const modal = document.createElement('div')
+  modal.className = 'bg-white rounded-2xl shadow-xl max-w-md w-full p-6'
+  
+  // Build order summary list
+  let itemsHTML = ""
+  cart.forEach(item => {
+    const itemTotal = item.price * item.count
+    const thumbSrc = item.image?.thumbnail || item.image?.mobile || "images/fallback.jpg"
+
+    itemsHTML += `
+    <div class="flex justify-between items-center py-2 border-b border-gray-200">
+    <div class="flex gap-3">
+      <img class="w-10 h-10 object-cover rounded-md" src="${thumbSrc}" alt="${item.name}">
+      <div class="flex flex-col text-left">
+        <p class="font-semibold text-gray-800">${item.name}</p>
+        <div class="flex items-center gap-2 text-sm text-rose-500">
+          <span>x${item.count}</span>
+          <span class="text-amber-950 font-medium">@ $${formatPrice(item.price)}</span>
         </div>
       </div>
-        <p class="font-medium text-gray-800">$${formatPrice(itemTotal)}</p>
-      </div>
+    </div>
+      <p class="font-medium text-gray-800">$${formatPrice(itemTotal)}</p>
+    </div>
+    `
+  })
+
+  modal.innerHTML = `
+  <div class="flex flex-col items-left gap-2 mb-6">
+    <img class="w-6 h-6" src="images/icon-order-confirmed.svg" alt="">
+    <div>
+      <h2 class="text-2xl font-bold text-neutral-950">Order Confirmed</h2>
+      <p class="text-gray-500 text-sm">We hope you enjoy your food!</p>
+    </div>
+  </div>
+
+  <div class="bg-rose-50 rounded-lg p-4 mb-4">
+    ${itemsHTML}
+    <div class="flex justify-between mt-4 text-lg font-bold text-neutral-900">
+      <span>Order Total</span>
+      <span>$${getSumTotal()}</span>
+    </div>
+  </div>
+
+  <button class="startNew bg-amber-700 hover:bg-amber-900 w-full text-white rounded-full py-3 font-semibold">
+    Start New Order
+  </button>
+  `
+
+  overlay.appendChild(modal)
+  document.body.appendChild(overlay)
+
+  // Reset cart + product cards on new order
+  modal.querySelector('.startNew').addEventListener('click', () => {
+    cart = []
+    saveAndRender()
+
+    document.querySelectorAll('#productList .aspect-w-16').forEach(container => {
+      container.classList.remove("border-amber-700")
+      container.classList.add("border-transparent")
+    })
+
+    document.querySelectorAll('.qtyControls').forEach(qty => {
+      qty.classList.add('hidden')
+      qty.classList.remove('flex')
+
+      const qtySpan = qty.querySelector('.qty')
+      if (qtySpan) qtySpan.textContent = 1
+    })
+
+    document.querySelectorAll('.addBtn').forEach(btn => {
+      btn.classList.remove('hidden')
+    })
+
+    document.querySelectorAll('.addToCartContainer').forEach(container => {
+      container.innerHTML = `
+      <button class="addToCartBtn bg-amber-700 hover:bg-amber-900 text-white rounded-full px-4 py-2 text-sm font-semibold">Add to Cart</button>
       `
     })
 
-    modal.innerHTML = `
-    <div class="flex flex-col items-left gap-2 mb-6">
-      <img class="w-6 h-6" src="images/icon-order-confirmed.svg" alt="">
-      <div>
-        <h2 class="text-2xl font-bold text-neutral-950">Order Confirmed</h2>
-        <p class="text-gray-500 text-sm">We hope you enjoy your food!</p>
-      </div>
-    </div>
-
-    <div class="bg-rose-50 rounded-lg p-4 mb-4">
-      ${itemsHTML}
-      <div class="flex justify-between mt-4 text-lg font-bold text-neutral-900">
-        <span>Order Total</span>
-        <span>$${getsumTotal()}</span>
-      </div>
-    </div>
-
-    <button class="startNew bg-amber-700 hover:bg-amber-900 w-full text-white rounded-full py-3 font-semibold">
-      Start New Order
-    </button>
-    `
-
-    overlay.appendChild(modal)
-    document.body.appendChild(overlay)
-
-    // Reset cart + product cards on new order
-    modal.querySelector('.startNew').addEventListener('click', () => {
-      cart = []
-      saveAndRender()
-
-      document.querySelectorAll('.addToCartContainer').forEach(container => {
-        container.innerHTML = `
-        <button class="addToCartBtn bg-amber-700 hover:bg-amber-900 text-white rounded-full px-4 py-2 text-sm font-semibold">Add to Cart</button>
-        `
-      })
-
-      overlay.remove()
-      if (cartEl) cartEl.style.display = 'block'
-    })
-  }
+    overlay.remove()
+    if (cartEl) cartEl.style.display = 'block'
+  })
 }
 saveAndRender()
-getsumTotal()
+getSumTotal()
