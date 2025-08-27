@@ -7,27 +7,29 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div class="w-full mx-auto px-10 py-8 bg-rose-50">
-      <div class="relative grid grid-cols-1 gap-4 md:grid-cols-[60%_40%] md:gap-8">
+    <div class="min-h-screen w-full px-10 py-8 bg-rose-50">
+      <div class="max-w-7xl mx-auto">
+        <div class="relative grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-[60%_40%]">
 
-      <div>
-        <h3 class="text-2xl font-bold text-neutral-900 pb-3">Desserts</h3>
+          <div>
+            <h3 class="text-2xl font-bold text-neutral-900 pb-3">Desserts</h3>
 
-        <!-- Menu -->
-        <div id="productList"  class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-4">
-        </div>
-        <!-- End of menu -->
-      </div>
+            <!-- Menu -->
+            <div id="productList"  class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
+            </div>
+            <!-- End of menu -->
+          </div>
 
-      <!-- Order Summary -->
-      <div class="md:sticky top-0 aspect-w-16 px-5 py-4 bg-white rounded-xl md:w-[400px] md:h-[300px]">
-        <h3 class="text-rose-800 font-bold text-2xl">Your Cart <span class="js-cart-count">(0)</span></h3>
-        <div class="js-cart-items flex flex-col items-center justify-center mt-2 text-center gap-2">
-          <img src="images/illustration-empty-cart.svg" alt="">
-          <p class="text-rose-950 text-[16px] font-medium">Your added items will appear here</p>
-        </div>
-      </div>
+          <!-- Order Summary -->
+          <div class="md:sticky top-0 aspect-w-16 px-5 py-4 bg-white rounded-xl md:w-[400px] md:h-[300px]">
+            <h3 class="text-rose-800 font-bold text-2xl">Your Cart <span class="js-cart-count">(0)</span></h3>
+            <div class="js-cart-items flex flex-col items-center justify-center mt-2 text-center gap-2">
+              <img src="images/illustration-empty-cart.svg" alt="">
+              <p class="text-rose-950 text-[16px] font-medium">Your added items will appear here</p>
+            </div>
+          </div>
       
+        </div>
       </div>
     </div>
     <script type="module" src="/src/main.js"></script>
