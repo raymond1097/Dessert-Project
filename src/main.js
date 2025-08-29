@@ -67,12 +67,12 @@ products.forEach((product) => {
       <img class="w-full object-cover rounded-xl" src="${product.image.mobile}" alt="${product.name}">
     </picture>
 
-    <button class="addBtn absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white px-4 py-2 md:py-1.5 inline-flex items-center justify-center gap-1 rounded-full shadow-md text-xs font-bold text-neutral-950 whitespace-nowrap hover:bg-rose-50 cursor-pointer transition"><img class="h-4 w-4 md:h-5 md:w-5" src="images/icon-add-to-cart.svg" alt="">Add to Cart</button>
+    <button class="addBtn absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white px-4 py-2 md:py-1.5 inline-flex items-center justify-center gap-1 rounded-full shadow-md text-xs font-bold text-neutral-950 whitespace-nowrap hover:bg-rose-50 cursor-pointer transition"><img class="h-4 w-4 md:h-5 md:w-5" src="/images/icon-add-to-cart.svg" alt="">Add to Cart</button>
 
     <div class="qtyControls hidden absolute -bottom-2 left-1/2 -translate-x-1/2 bg-amber-700 px-6 py-1.5 md:px-6 md:py-2 rounded-full items-center gap-2 text-white">
-      <button class="decrement h-5 w-5 md:w-4 md:h-4"><img src="images/icon-decrement-quantity.svg" alt=""></button>
+      <button class="decrement h-5 w-5 md:w-4 md:h-4"><img src="/images/icon-decrement-quantity.svg" alt=""></button>
       <span class="qty min-w-[24px] md:min-w-[20px] text-center text-xs">1</span>
-      <button class="increment h-5 w-5 md:w-4 md:h-4"><img src="images/icon-increment-quantity.svg" alt=""></button>
+      <button class="increment h-5 w-5 md:w-4 md:h-4"><img src="/images/icon-increment-quantity.svg" alt=""></button>
     </div>
   </div>
 
