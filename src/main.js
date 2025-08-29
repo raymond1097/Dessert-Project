@@ -143,7 +143,7 @@ function renderCart() {
 
   if (cart.length === 0) {
     cartItemsContainer.innerHTML = `
-    <img src="images/illustration-empty-cart.svg" alt="">
+    <img src="/images/illustration-empty-cart.svg" alt="">
     <p class="text-rose-950 text-[16px] font-mediumxs">Your added items will appear here</p>
     `
     return;
@@ -165,7 +165,7 @@ function renderCart() {
       </div>
     </div>
     <button class="ml-4 text-gray-400 hover:text-amber-500 transition">
-      <img class="w-5 h-5" src="images/icon-remove-item.svg" alt="">
+      <img class="w-5 h-5" src="/images/icon-remove-item.svg" alt="">
     </button>
   `;
 
@@ -186,7 +186,7 @@ function renderCart() {
   carbonDelivery.className = "flex justify-center w-full items-center mx-auto bg-rose-50 text-neutral-950 rounded-lg py-2 mt-2"
   carbonDelivery.innerHTML = `
   <div class="flex gap-1">
-  <img src="images/icon-carbon-neutral.svg" alt ="" />
+  <img src="/images/icon-carbon-neutral.svg" alt ="" />
   <p>This is a <b>carbon-neutral</b> delivery</p>
   </div>
   `
@@ -216,7 +216,7 @@ function showOrderConfirmation() {
   let itemsHTML = ""
   cart.forEach(item => {
     const itemTotal = item.price * item.count
-    const thumbSrc = item.image?.thumbnail || item.image?.mobile || "images/fallback.jpg"
+    const thumbSrc = item.image?.thumbnail || item.image?.mobile || "/images/fallback.jpg"
 
     itemsHTML += `
     <div class="flex justify-between items-center py-2 border-b border-gray-200">
@@ -237,7 +237,7 @@ function showOrderConfirmation() {
 
   modal.innerHTML = `
   <div class="flex flex-col items-left gap-2 mb-6">
-    <img class="w-6 h-6" src="images/icon-order-confirmed.svg" alt="">
+    <img class="w-6 h-6" src="/images/icon-order-confirmed.svg" alt="">
     <div>
       <h2 class="text-2xl font-bold text-neutral-950">Order Confirmed</h2>
       <p class="text-gray-500 text-sm">We hope you enjoy your food!</p>
